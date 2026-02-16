@@ -1,0 +1,10 @@
+{
+  "/campaigns/page": "app/campaigns/page.js",
+  "/contacts/page": "app/contacts/page.js",
+  "/dashboard/page": "app/dashboard/page.js",
+  "/lists/page": "app/lists/page.js",
+  "/page": "app/page.js",
+  "/settings/page": "app/settings/page.js",
+  "/subscribe/[slug]/page": "app/subscribe/[slug]/page.js",
+  "/thanks/page": "app/thanks/page.js"
+}
