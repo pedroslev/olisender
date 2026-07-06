@@ -6,6 +6,7 @@ import secrets
 
 from db import (
     create_user, authenticate_user, create_session, validate_session,
+    get_user_count,
     create_contact, get_contacts, add_contact_to_list,
     create_list, get_lists, get_list_by_slug
 )
@@ -49,10 +50,37 @@ class SubscribeRequest(BaseModel):
     topic: Optional[str] = None
 
 # Auth routes
-# @router.post("/register")  # DISABLED - Solo administrador puede crear usuarios
-# async def register(user_data: UserCreate):
-#     """Register a new user - DISABLED for security"""
-#     raise HTTPException(status_code=403, detail="Registration disabled")
+
+@router.get("/needs-initial-setup")
+async def needs_initial_setup():
+    """Public endpoint: returns whether no users exist and initial admin setup is required."""
+    count = get_user_count()
+    return {"needs_initial_setup": count == 0}
+
+@router.post("/initial-setup")
+async def initial_setup(user_data: UserCreate):
+    """Create the first admin user. Only allowed when there are zero users. No auth required."""
+    if get_user_count() != 0:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Initial setup already completed. Use login.",
+        )
+    if len(user_data.password) < 6:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="La contraseña debe tener al menos 6 caracteres",
+        )
+    try:
+        user_id = create_user(user_data.email, user_data.password)
+        user = {"id": user_id, "email": user_data.email}
+        session_token = create_session(user_id)
+        return {
+            "message": "Administrador creado correctamente",
+            "session_token": session_token,
+            "user": user,
+        }
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
 
 @router.post("/login")
 async def login(login_data: UserLogin):

@@ -1,4 +1,4 @@
-#!/Users/pedroslev/work/personal/olisender/backend/venv/bin/python3.11
+#!/root/repos/olisender/backend/venv/bin/python3.11
 # -*- coding: utf-8 -*-
 import re
 import sys

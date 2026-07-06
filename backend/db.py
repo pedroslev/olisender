@@ -240,6 +240,15 @@ def migrate_remove_double_opt_in():
         conn.close()
 
 # User operations
+def get_user_count() -> int:
+    """Return the number of users in the database (for initial setup check)."""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT COUNT(*) FROM users")
+    count = cursor.fetchone()[0]
+    conn.close()
+    return count
+
 def create_user(email: str, password: str) -> int:
     """Create a new user"""
     conn = get_db_connection()

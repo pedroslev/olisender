@@ -154,7 +154,6 @@ export default function Dashboard() {
       <main className="w-full py-4 sm:py-6 lg:py-8 px-2 sm:px-4 lg:px-6 xl:px-8">
         <div className="mb-6 sm:mb-8">
           <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-2">Dashboard</h2>
-          <p className="text-sm sm:text-base text-gray-600">Bienvenida de vuelta al panel de administración</p>
         </div>
 
         {/* Stats Grid */}
